@@ -4,6 +4,9 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
+        if len(s) == 1:
+            return {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}[s]
+        
         numbers = {
             "I" : 1,
             "V" : 5,
@@ -15,16 +18,17 @@ class Solution(object):
         }
         
         total = 0
-        n = len(s)
-
-        for i in range(n - 1):
-            cur, nxt = numbers[s[i]], numbers[s[i+1]]
-            if cur < nxt:
-                total -= cur
+        prev_value = 0
+        
+        for char in reversed(s):
+            value = numbers[char]
+            if value < prev_value:
+                total -= value
             else:
-                total += cur
-
-        return total + numbers[s[-1]]
+                total += value
+            prev_value = value
+        
+        return total
 
         
 if __name__ == "__main__":
